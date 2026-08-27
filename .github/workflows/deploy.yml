@@ -35,9 +35,16 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Resolve backend Web App name by tag
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        id: resolve
+        run: |
+          APP_NAME=$(az webapp list --resource-group fbarryRG --query "[?tags.composant=='backend'].name" -o tsv)
+          echo "app_name=$APP_NAME" >> "$GITHUB_OUTPUT"
+
       - name: Deploy to Azure Web App
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: azure/webapps-deploy@v3
         with:
-          app-name: app-fbarry-quiz-backend
+          app-name: ${{ steps.resolve.outputs.app_name }}
           package: target/azure-quiz-backend-0.0.1-SNAPSHOT.jar
