@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [main]
 
+  workflow_dispatch:
+
 permissions:
   id-token: write
   contents: read
@@ -28,7 +30,7 @@ jobs:
         run: ./mvnw clean verify
 
       - name: Azure login (OIDC)
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         uses: azure/login@v2
         with:
           client-id: ${{ vars.AZURE_CLIENT_ID }}
@@ -36,7 +38,7 @@ jobs:
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Resolve backend Web App name by tag
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         id: resolve
         run: |
           APP_NAME=$(az webapp list --resource-group fbarryRG --query "[?tags.composant=='backend'].name" -o tsv)
@@ -45,7 +47,7 @@ jobs:
           echo "jar_path=$JAR_PATH" >> "$GITHUB_OUTPUT"
 
       - name: Deploy to Azure Web App
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ steps.resolve.outputs.app_name }}
