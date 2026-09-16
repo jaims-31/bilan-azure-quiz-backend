@@ -65,6 +65,7 @@ jobs:
         with:
           target: 'http://localhost:8080'
           fail_action: false
+          allow_issue_writing: false
 
       - name: Show app logs if it failed to start
         if: failure()
