@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../bilan-azure-quiz-frontend"
+		},
+		{
+			"path": "../../../bilan-azure-quiz-infra"
+		}
+	]
+}
