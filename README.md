@@ -90,7 +90,7 @@ Swagger UI: http://localhost:8080/swagger-ui.html
 - SonarCloud found 3 GitHub Actions not pinned to a commit SHA in deploy.yml and security.yml. Fixed, security rating went from C to A.
 
 Before:
-![before](./screenshots/sonarbefore.png)
+![before](./screenshots/sonar.before.png)
 
 After:
-![after](./screenshots/sonarafter.png)
+![after](./screenshots/sonar.after.png)
