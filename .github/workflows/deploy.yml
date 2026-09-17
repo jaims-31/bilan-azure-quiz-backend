@@ -31,7 +31,7 @@ jobs:
 
       - name: Azure login (OIDC)
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-        uses: azure/login@v2
+        uses: azure/login@2035af27c2cea8ff426397d10e3edb28906b51df # v2.3.1
         with:
           client-id: ${{ vars.AZURE_CLIENT_ID }}
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
@@ -48,7 +48,7 @@ jobs:
 
       - name: Deploy to Azure Web App
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-        uses: azure/webapps-deploy@v3
+        uses: azure/webapps-deploy@02a81bead70021f5284939794bcec79c271ab383 # v3.0.8
         with:
           app-name: ${{ steps.resolve.outputs.app_name }}
           package: ${{ steps.resolve.outputs.jar_path }}
