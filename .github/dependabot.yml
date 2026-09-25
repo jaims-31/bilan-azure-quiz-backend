@@ -1,6 +1,14 @@
 version: 2
 updates:
   - package-ecosystem: "maven"
+    ignore:
+         # Projet sur Spring Boot 3.5 : ignore les versions majeures qui ciblent Boot 4
+         - dependency-name: "org.springframework.boot:*"
+           update-types: ["version-update:semver-major"]
+         - dependency-name: "com.azure.spring:*"
+           update-types: ["version-update:semver-major"]
+         - dependency-name: "org.springdoc:*"
+           update-types: ["version-update:semver-major"]
     directory: "/"
     schedule:
       interval: "weekly"
