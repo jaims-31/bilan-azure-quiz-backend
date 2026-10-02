@@ -1,0 +1,33 @@
+name: Build benchmark (hosted vs self-hosted)
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: "Runner à utiliser"
+        required: true
+        default: hosted
+        type: choice
+        options:
+          - hosted
+          - self-hosted
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ${{ inputs.runner == 'self-hosted' && fromJSON('["self-hosted", "linux", "x64", "azure"]') || 'ubuntu-latest' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Build and test
+        run: ./mvnw -B clean verify
