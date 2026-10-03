@@ -20,7 +20,7 @@ jobs:
     runs-on: ${{ inputs.runner == 'self-hosted' && fromJSON('["self-hosted", "linux", "x64", "azure"]') || 'ubuntu-latest' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
 
       - name: Set up JDK 21
